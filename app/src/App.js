@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route, Link, BrowserRouter} from 'reac
 import FooterComponent from './components/FooterComponent';
 import HeaderComponent from './components/HeaderComponent';
 import ListEmployeeComponent from './components/ListEmployeeComponent';
+import CreateEmployeeComponent from './components/CreateEmployeeComponent';
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
             <div className="container">
 
               <Routes>
-                <Route exact path='/' element={<ListEmployeeComponent />}/>
+                <Route path='/' exact element={<ListEmployeeComponent />}/>
                 <Route path='/employees' element={<ListEmployeeComponent />}/>
+                <Route path='/add-employee' element={<CreateEmployeeComponent />}/>
 
               </Routes>
             </div>
