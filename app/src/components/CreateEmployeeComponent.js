@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { useNavigate } from "react-router-dom";
+import EmployeeService from '../services/EmployeeService';
 
 
 class CreateEmployeeComponent extends Component {
@@ -7,7 +8,7 @@ class CreateEmployeeComponent extends Component {
         super(props)
         this.state = {
             firstName: '',
-            lasteName: '',
+            lastName: '',
             emailId: ''
         }
         this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
@@ -21,8 +22,11 @@ class CreateEmployeeComponent extends Component {
 
     saveEmployee = (e) => {
         e.preventDefault();
-        let employee = {firstName: this.state.firstName, lasteName: this.state.lastName, emailId: this.state.emailId};
+        let employee = {firstName: this.state.firstName, lastName: this.state.lastName, emailId: this.state.emailId};
         console.log('employee => ' + JSON.stringify(employee));
+        EmployeeService.createEmployee(employee).then(res => {
+            this.props.history('/employees');
+        });
 
     }
 
@@ -31,11 +35,11 @@ class CreateEmployeeComponent extends Component {
     }
 
     changeLastNameHandler = (event) => {
-        this.setState({ firstName: event.target.value });
+        this.setState({ lastName: event.target.value });
     }
 
     changeEmailIdHandler = (event) => {
-        this.setState({ firstName: event.target.value });
+        this.setState({ emailId: event.target.value });
     }
 
     cancel() {
@@ -64,7 +68,7 @@ class CreateEmployeeComponent extends Component {
                                         <label>
                                             Last Name
                                         </label>
-                                        <input placeholder='Last Name' name='lasttName' className='form-control'
+                                        <input placeholder='Last Name' name='lastName' className='form-control'
                                             value={this.state.lastName} onChange={this.changeLastNameHandler} />
                                     </div>
                                     <div className='form-group'>

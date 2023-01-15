@@ -20,8 +20,12 @@ public class EmployeeController {
         return employeeService.findAll();
     }
 
-    @PostMapping("employees/save")
+    @PostMapping("employees")
     public Employee createEmployee(@RequestBody Employee e){
-        return employeeService.save(e);
+        Employee employee = new Employee();
+        employee.setEmailId(e.getEmailId());
+        employee.setFirstName(e.getFirstName());
+        employee.setLastName(e.getLastName());
+        return employeeService.save(employee);
     }
 }
