@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import EmployeeService from '../services/EmployeeService';
 
 
@@ -14,19 +15,51 @@ class CreateEmployeeComponent extends Component {
         this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
         this.changeLastNameHandler = this.changeLastNameHandler.bind(this);
         this.changeEmailIdHandler = this.changeEmailIdHandler.bind(this);
-        this.saveEmployee = this.saveEmployee.bind(this);
+        this.saveOrUpdateEmployee = this.saveOrUpdateEmployee.bind(this);
 
 
     }
 
+    componentDidMount(){
+        // should using hook function class or wrapper and direct using of useParams() same as useNavigate insted of history
+        let { id } = this.props.hookParams;
+        console.log(id);
 
-    saveEmployee = (e) => {
+
+        if(id === "_add"){
+            return;
+        }else{
+            EmployeeService.getEmployeeById(id).then((res) => {
+                let employee = res.data;
+                this.setState({firstName: employee.firstName, lastName:employee.lastName, emailId:employee.emailId})
+            });
+        }
+
+    }
+
+
+    saveOrUpdateEmployee = (e) => {
         e.preventDefault();
         let employee = {firstName: this.state.firstName, lastName: this.state.lastName, emailId: this.state.emailId};
         console.log('employee => ' + JSON.stringify(employee));
-        EmployeeService.createEmployee(employee).then(res => {
-            this.props.history('/employees');
-        });
+
+        let { id } = this.props.hookParams;
+        console.log(id);
+
+
+        if(id === "_add"){
+                EmployeeService.createEmployee(employee).then(res => {
+                    this.props.history('/employees');
+                });        
+            }else{
+
+                EmployeeService.updateEmployee(employee, id).then(res => {
+                    this.props.history('/employees');
+                })
+
+        }
+
+
 
     }
 
@@ -47,13 +80,23 @@ class CreateEmployeeComponent extends Component {
         this.props.history('/employees');
     }
 
+    getTitle(){
+        let { id } = this.props.hookParams;
+        if(id === "_add"){
+                return <h3 className='text-center'> Add Employee</h3>        
+            }else{
+               return <h3 className='text-center'> Update Employee</h3>
+
+        }
+    }
+
     render() {
         return (
             <div>
                 <div className='container'>
                     <div className='row'>
                         <div className='card col-md-6 offset-md-3'>
-                            <h3 className='text-center'> Add Employee</h3>
+                            {this.getTitle()}
                             <div className='card-body'>
                                 <form>
                                     <div className='form-group'>
@@ -79,7 +122,7 @@ class CreateEmployeeComponent extends Component {
                                             value={this.state.emailId} onChange={this.changeEmailIdHandler} />
                                     </div>
 
-                                    <button className='btn btn-success' onClick={this.saveEmployee}>Save</button>
+                                    <button className='btn btn-success' onClick={this.saveOrUpdateEmployee}>Save</button>
                                     <button className='btn btn-danger' onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
 
                                 </form>
@@ -96,5 +139,5 @@ class CreateEmployeeComponent extends Component {
 
 // export default CreateEmployeeComponent;
 export default (props) => (
-    <CreateEmployeeComponent history={useNavigate()} />
+    <CreateEmployeeComponent history={useNavigate()} hookParams={useParams()}/>
   );

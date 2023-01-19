@@ -22,7 +22,7 @@ class UpdateEmployeeComponent extends Component {
 
     componentDidMount(){
         // should using hook function class or wrapper and direct using of useParams() same as useNavigate insted of history
-        let { id } = this.props.pr;
+        let { id } = this.props.hookParams;
         console.log(id);
         EmployeeService.getEmployeeById(id).then((res) => {
             let employee = res.data;
@@ -32,7 +32,7 @@ class UpdateEmployeeComponent extends Component {
 
 
     updateEmployee = (e) => {
-        let { id } = this.props.pr;
+        let { id } = this.props.hookParams;
         e.preventDefault();
         let employee = {firstName: this.state.firstName, lastName: this.state.lastName, emailId: this.state.emailId};
         console.log('employee => ' + JSON.stringify(employee));
@@ -107,5 +107,5 @@ class UpdateEmployeeComponent extends Component {
     }
 }
 export default (props) => (
-    <UpdateEmployeeComponent history={useNavigate()} pr={useParams()} />
+    <UpdateEmployeeComponent history={useNavigate()} hookParams={useParams()} />
   );

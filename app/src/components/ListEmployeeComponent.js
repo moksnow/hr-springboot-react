@@ -18,14 +18,14 @@ class ListEmployeeComponent extends Component {
     editEmployee(id) {
         console.log(id);
             
-        this.props.history(`/update-employee/${id}`);
+        this.props.history(`/add-employee/${id}`);
  
      }
 
 
     addEmployee() {
             
-        this.props.history('/add-employee');
+        this.props.history('/add-employee/_add');
  
      }
 
