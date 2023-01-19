@@ -27,4 +27,7 @@ public class EmployeeService {
               .orElseThrow(() -> new ResourceNotFoundException("Employee does not exist: " + id));
     }
 
+    public void delete(Employee employee) {
+         employeeRepository.delete(employee);
+    }
 }
