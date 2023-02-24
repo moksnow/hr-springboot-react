@@ -14,8 +14,8 @@ This example app shows how to create a Spring Boot API and CRUD (create, read, u
 To install this example application, run the following commands:
 
 ```bash
-git clone https://github.com/moksnow/jug-springboot-react.git
-cd spring-react
+git clone https://github.com/moksnow/hr-springboot-react.git
+cd hr-springboot-react
 ```
 
 This will get a copy of the project installed locally. To install all of its dependencies and start each app, follow the instructions below.
